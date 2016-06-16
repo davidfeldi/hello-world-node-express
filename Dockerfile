@@ -1,10 +1,14 @@
-FROM    centos:centos6
+FROM node:latest
 
-RUN     yum install -y epel-release
-RUN     yum install -y nodejs npm
-COPY package.json /src/package.json
-RUN cd /src; npm install --production
-COPY . /src
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-EXPOSE  8080
-CMD ["node", "/src/index.js"]
+COPY package.json /usr/src/app/
+RUN npm install --silent
+COPY . /usr/src/app
+EXPOSE 9000
+ENV PORT 9000
+CMD [ "npm", "start" ]
+
+
+
